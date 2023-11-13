@@ -4,7 +4,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 const App = () => {
   return (
     <View style={styles.container}>
-    <Text style={styles.label}>Insira qual o seu nome</Text>
+      <Text style={styles.title}>Calculadora de IMC</Text>
+      
+      <Text style={styles.label}>Insira qual o seu nome</Text>
       <TextInput style={styles.input} placeholder="Nome" placeholderTextColor="white" />
 
       <Text style={styles.label}>Insira qual a sua altura</Text>
@@ -29,6 +31,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E1E1E',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
   label: {
     color: 'white',
