@@ -1,5 +1,6 @@
 // App.js
-import React from 'react';
+import React  from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './components/home';
@@ -17,7 +18,7 @@ const App = () => {
           options={({ navigation }) => ({
             title: 'Tela Inicial',
             headerRight: () => (
-              <button onClick={() => navigation.navigate('Details')}>Detalhes</button>
+              <a style={styles.button}  onClick={() => navigation.navigate('Details')}>Detalhes</a>
             ),
           })}
         />
@@ -27,4 +28,18 @@ const App = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  button: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: '#1E1E1E',
+    padding: 15,
+    borderRadius: 10,
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+})
 export default App;
