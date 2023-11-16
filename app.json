@@ -3,6 +3,7 @@
     "name": "calculadoraImc",
     "slug": "calculadoraImc",
     "version": "1.0.0",
+    "owner": "kilodev",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

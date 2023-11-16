@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 
 import RegisterUserData from '../firestore';
 
@@ -11,16 +13,29 @@ const HomeScreen = ({ navigation }) => {
     city: '',
   });
 
-  const calcularIMC = () => {
+  useEffect(() => {
+    // Verificar conectividade quando o componente é montado
+    handleNetworkConnectivity();
+  }, []);
+
+  const calcularIMC = async () => {
     const { height, weight } = userData;
-  
+
     if (height > 0 && weight > 0) {
       const alturaMetros = height / 100;
       const imc = (weight / (alturaMetros * alturaMetros)).toFixed(2);
-  
+
       const data = { ...userData, imc: imc };
-      RegisterUserData(data);
-  
+
+      // Verificar se há conectividade antes de decidir enviar para o Firebase ou salvar localmente
+      const isConnected = await handleNetworkConnectivity();
+      
+      if (isConnected) {
+        RegisterUserData(data);
+      } else {
+        saveToCache(data);
+      }
+
       setUserData((prevUserData) => ({
         ...prevUserData,
         name: '',
@@ -28,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         weight: 0,
         city: '',
       }));
-  
+
       navigation.navigate('Details');
     } else {
       // Tratamento para valores inválidos
@@ -44,6 +59,30 @@ const HomeScreen = ({ navigation }) => {
     Keyboard.dismiss();
   };
 
+  const handleNetworkConnectivity = async () => {
+    const netInfoState = await NetInfo.fetch();
+    const isConnected = netInfoState.isConnected;
+
+    if (!isConnected) {
+      console.log('Sem conexão com a internet.');
+    }
+
+    return isConnected;
+  };
+
+  const saveToCache = async (data) => {
+    try {
+      const cachedData = await AsyncStorage.getItem('imcData') || '[]';
+      const cachedArray = JSON.parse(cachedData);
+      cachedArray.push(data);
+
+      await AsyncStorage.setItem('imcData', JSON.stringify(cachedArray));
+      console.log('Dados salvos localmente');
+    } catch (error) {
+      console.error('Erro ao salvar dados localmente:', error);
+    }
+  };
+  
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>

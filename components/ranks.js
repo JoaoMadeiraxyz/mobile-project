@@ -17,7 +17,7 @@ const RankScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Detalhes</Text>
+      <Text style={styles.title}>Ranking</Text>
       <View style={styles.header}>
         <Text style={styles.headerText}>Nome</Text>
         <Text style={styles.headerText}>Cidade</Text>

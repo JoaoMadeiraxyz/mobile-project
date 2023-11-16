@@ -32,6 +32,7 @@ export async function ListUsersData() {
             });
         });
 
+        usersData.sort((a, b) => parseFloat(b.imc) - parseFloat(a.imc));
         return usersData;
     } catch (error) {
         console.error("Error getting documents: ", error);

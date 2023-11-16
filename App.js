@@ -19,12 +19,12 @@ const App = () => {
             title: 'Tela Inicial',
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate('Details')}>
-                <Text style={styles.button}>Detalhes</Text>
+                <Text style={styles.button}>Ranking</Text>
               </TouchableOpacity>
             ),
           })}
         />
-        <Stack.Screen name="Details" component={RankScreen} options={{ title: 'Detalhes' }} />
+        <Stack.Screen name="Details" component={RankScreen} options={{ title: 'Ranking' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
