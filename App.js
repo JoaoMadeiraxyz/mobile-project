@@ -18,7 +18,9 @@ const App = () => {
           options={({ navigation }) => ({
             title: 'Tela Inicial',
             headerRight: () => (
-              <a style={styles.button}  onClick={() => navigation.navigate('Details')}>Detalhes</a>
+              <TouchableOpacity onPress={() => navigation.navigate('Details')}>
+                <Text style={styles.button}>Detalhes</Text>
+              </TouchableOpacity>
             ),
           })}
         />

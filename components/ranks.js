@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 
-const data = [
-  { nome: 'João', cidade: 'São Paulo', imc: 24.5 },
-  { nome: 'Maria', cidade: 'Rio de Janeiro', imc: 22.0 },
-  { nome: 'Pedro', cidade: 'Belo Horizonte', imc: 26.8 },
-  // Adicione mais dados conforme necessário
-];
+import { ListUsersData } from '../firestore';
 
 const RankScreen = ({ navigation }) => {
+  const [data, setData] = useState([]);
+
+  async function fetchData() {
+    const result = await ListUsersData();
+    setData(result);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Detalhes</Text>
@@ -23,8 +29,8 @@ const RankScreen = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text style={styles.itemText}>{item.nome}</Text>
-            <Text style={styles.itemText}>{item.cidade}</Text>
+            <Text style={styles.itemText}>{item.name}</Text>
+            <Text style={styles.itemText}>{item.city}</Text>
             <Text style={styles.itemText}>{item.imc}</Text>
           </View>
         )}
