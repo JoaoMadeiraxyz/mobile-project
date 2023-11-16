@@ -18,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
     handleNetworkConnectivity();
   }, []);
 
-  const calcularIMC = async () => {
+  const handleCalcularIMC = async () => {
     const { height, weight } = userData;
 
     if (height > 0 && weight > 0) {
@@ -31,7 +31,8 @@ const HomeScreen = ({ navigation }) => {
       const isConnected = await handleNetworkConnectivity();
       
       if (isConnected) {
-        RegisterUserData(data);
+        await RegisterUserData(data);
+        await removeFromCache(data);
       } else {
         saveToCache(data);
       }
@@ -82,7 +83,22 @@ const HomeScreen = ({ navigation }) => {
       console.error('Erro ao salvar dados localmente:', error);
     }
   };
-  
+
+  const removeFromCache = async (dataToRemove) => {
+    try {
+      const cachedData = await AsyncStorage.getItem('imcData') || '[]';
+      let cachedArray = JSON.parse(cachedData);
+
+      // Remover o item específico do array
+      cachedArray = cachedArray.filter(item => item !== dataToRemove);
+
+      await AsyncStorage.setItem('imcData', JSON.stringify(cachedArray));
+      console.log('Dados enviados e removidos localmente');
+    } catch (error) {
+      console.error('Erro ao remover dados localmente:', error);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
@@ -126,7 +142,7 @@ const HomeScreen = ({ navigation }) => {
           onChangeText={(text) => handleChange('city', text)}
         />
 
-        <TouchableOpacity style={styles.button} onPress={calcularIMC}>
+        <TouchableOpacity style={styles.button} onPress={handleCalcularIMC}>
           <Text style={styles.buttonText}>Calcular IMC</Text>
         </TouchableOpacity>
       </View>
