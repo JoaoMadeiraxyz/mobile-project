@@ -16,7 +16,9 @@ export default async function RegisterUserData(data) {
       weight: data.weight,
       city: data.city,
       imc: data.imc,
+      sexo: data.sexo,
     });
+    console.log(data)
     console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -36,6 +38,7 @@ export async function ListUsersData() {
         weight: doc.data().weight,
         city: doc.data().city,
         imc: doc.data().imc,
+        sexo: doc.data().sexo,
       });
     });
 
